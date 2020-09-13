@@ -80,10 +80,15 @@ function showNextImg() {
   const newIndex = gallery.find((el, i) => i === current + 1);
 
   if (newIndex === undefined) {
-    return (imgLargeRef.src = gallery[0].original);
+    imgLargeRef.src = gallery[0].original;
+    imgLargeRef.alt = gallery[0].description;
+    return setImgToModal(imgLargeRef.src, imgLargeRef.alt);
   }
 
-  return (imgLargeRef.src = newIndex.original);
+  imgLargeRef.src = newIndex.original;
+  imgLargeRef.alt = newIndex.description;
+
+  return setImgToModal(imgLargeRef.src, imgLargeRef.alt);
 }
 
 function showPrevImg() {
@@ -91,10 +96,16 @@ function showPrevImg() {
   const newIndex = gallery.find((el, i) => i === current - 1);
 
   if (current === 0) {
-    return (imgLargeRef.src = gallery[gallery.length - 1].original);
+    imgLargeRef.src = gallery[gallery.length - 1].original;
+    imgLargeRef.alt = gallery[gallery.length - 1].description;
+
+    return setImgToModal(imgLargeRef.src, imgLargeRef.alt);
   }
 
-  return (imgLargeRef.src = newIndex.original);
+  imgLargeRef.src = newIndex.original;
+  imgLargeRef.alt = newIndex.description;
+
+  return setImgToModal(imgLargeRef.src, imgLargeRef.alt);
 }
 
 function onPressHandler(e) {
