@@ -10,9 +10,8 @@ const buttonCloseRef = document.querySelector(
 );
 const fragment = document.createDocumentFragment();
 
-function getTags(tag, classes = {}, attributes = {}) {
+function getTags(tag, attributes = {}) {
   const element = document.createElement(tag);
-  element.classList.add(classes);
 
   for (const attribute in attributes) {
     element.setAttribute(attribute, attributes[attribute]);
@@ -22,9 +21,10 @@ function getTags(tag, classes = {}, attributes = {}) {
 }
 
 function createItem(el) {
-  const element = getTags("li", "gallery__item");
-  const link = getTags("a", "gallery__link", { href: `${el.original}` });
-  const img = getTags("img", "gallery__image", {
+  const element = getTags("li", { class: "gallery__item" });
+  const link = getTags("a", { class: "gallery__link", href: `${el.original}` });
+  const img = getTags("img", {
+    class: "gallery__image",
     src: `${el.preview}`,
     "data-source": `${el.original}`,
     alt: `${el.description}`,
@@ -36,7 +36,7 @@ function createItem(el) {
 }
 
 function createElementGallery(gallery) {
-  const list = gallery.forEach((el, index) => {
+  const list = gallery.forEach((el) => {
     createItem(el);
   });
 
@@ -123,3 +123,120 @@ buttonCloseRef.addEventListener("click", (e) => {
   closeModal();
 });
 modalRef.addEventListener("click", closeModal);
+
+// ------------    Вариант - 2 --------------
+
+// const galleryListRef = document.querySelector(".gallery");
+// const imgLargeRef = document.querySelector(".lightbox__image");
+// const modalRef = document.querySelector("div.lightbox");
+// const buttonCloseRef = document.querySelector(
+//   'button[data-action="close-lightbox"]'
+// );
+
+// const getElementGallery = (href, src, original, alt, index) =>
+//   `<li class="gallery__item">
+//   <a
+//     class="gallery__link"
+//     href="${href}"
+//   >
+//     <img
+//       class="gallery__image"
+//       src="${src}"
+//       data-source="${original}"
+//       alt="${alt}"
+//       data-index="${index}"
+//     />
+//   </a>
+// </li>`;
+
+// const getListGallery = () =>
+//   gallery.reduce(
+//     (acc, { preview, original, description }, index) =>
+//       acc + getElementGallery(original, preview, original, description, index),
+//     ""
+//   );
+
+// galleryListRef.innerHTML = getListGallery();
+
+// const getTags = (tag, attributes = {}) => {
+//   const element = document.createElement("tag");
+
+//   for (const attribute in attributes) {
+//     element.setAttribute(attribute, attributes[attribute]);
+//   }
+
+//   return element;
+// };
+
+// const setImgToModal = (src = "", alt = "", index = "") => {
+//   imgLargeRef.setAttribute("src", src);
+//   imgLargeRef.setAttribute("alt", alt);
+//   imgLargeRef.setAttribute("data-index", index);
+// };
+
+// const onGalleryClick = (event) => {
+//   event.preventDefault();
+
+//   if (event.target.nodeName !== "IMG") {
+//     return;
+//   }
+
+//   const { dataset = {}, alt = "" } = event.target;
+//   openModal(dataset.source, alt, dataset.index);
+// };
+
+// const openModal = (url, alt, index) => {
+//   window.addEventListener("keydown", closeESC);
+//   setImgToModal(url, alt, index);
+//   modalRef.classList.toggle("is-open");
+// };
+
+// const closeModal = () => {
+//   window.removeEventListener("keydown", closeESC);
+//   setImgToModal();
+//   modalRef.classList.toggle("is-open");
+// };
+
+// const closeESC = (event) => {
+//   if (event.code === "Escape") {
+//     closeModal();
+//   }
+// };
+
+// const showNextImg = () => {
+//   const nextImgIndex = +imgLargeRef.dataset.index + 1;
+
+//   if (nextImgIndex < gallery.length) {
+//     setImgToModal(
+//       gallery[nextImgIndex].original,
+//       gallery[nextImgIndex].description,
+//       nextImgIndex
+//     );
+//   }
+// };
+
+// const showPrevImg = () => {
+//   const prevImgIndex = imgLargeRef.dataset.index - 1;
+
+//   if (prevImgIndex >= 0) {
+//     setImgToModal(
+//       gallery[prevImgIndex].original,
+//       gallery[prevImgIndex].description,
+//       prevImgIndex
+//     );
+//   }
+// };
+
+// galleryListRef.addEventListener("click", onGalleryClick);
+// imgLargeRef.addEventListener("click", (e) => {
+//   e.stopPropagation();
+// });
+// buttonCloseRef.addEventListener("click", (e) => {
+//   e.stopPropagation();
+//   closeModal();
+// });
+// modalRef.addEventListener("click", closeModal);
+// window.addEventListener("keydown", (e) => {
+//   e.keyCode === 39 && showNextImg();
+//   e.keyCode === 37 && showPrevImg();
+// });
